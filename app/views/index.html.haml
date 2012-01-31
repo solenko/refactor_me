@@ -1,0 +1,10 @@
+%table
+  %tr
+    %th= ISBN
+    %th= Title
+    %th= Author
+    %th= Category
+    %th= Description
+  = render :partial => 'book', :collection => @books
+
+= will_paginate
