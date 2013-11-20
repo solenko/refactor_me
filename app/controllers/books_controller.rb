@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
+  respond_to :html, :text
   def index
-    @books = Book.published_between(Date.today.monday, Date.today).paginate params[:page]
+    @books = Book.where(:draft => false).published_between(Date.today.monday, Date.today).paginate params[:page]
     respond_to do |format|
       format.html
       format.csv {
@@ -9,8 +10,30 @@ class BooksController < ApplicationController
     end
   end
 
+  def my
+    @books = Book.where(:user_id => current_user.id).paginate params[:page]
+    render 'index'
+  end
+
   def show
     @book = Book.find params[:id]
+    respond_with(@book)
+  end
+
+  def create
+    @book = Book.new(params[:book])
+    @book.save
+    respond_with(@book)
+  end
+
+  def edit
+    @book = Book.find params[:id]
+  end
+
+  def update
+    @book = Book.find params[:id]
+    @book.update_attributes(params[:book])
+    respond_with(@book)
   end
 
   private

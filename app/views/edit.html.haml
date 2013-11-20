@@ -1,0 +1,13 @@
+%h2 Редактирование книги
+= form_for @book do |f|
+  = f.hidden_field :user_id, current_user.id
+  = f.text_field :isbn
+  = f.text_field :title
+  = f.textarea  :description
+  = f.textarea  :contents
+  = f.textarea  :full_text
+  = f.collection_select :category_id, Category.all
+  = f.checkbox :draft
+  = f.submit
+
+
